@@ -6,7 +6,7 @@ const upload = multer({ dest: 'uploads/' })
 const app = express();
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
-const port = 3000;
+const port = 3005;
 
 require('dotenv').config();
 
