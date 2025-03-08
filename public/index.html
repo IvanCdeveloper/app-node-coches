@@ -1,68 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="output.css">
 </head>
-<body>
-    <h1>Listado de ordenadores</h1>
-    <a href="/registro.html">Registro nuevo usuario</a>
-    <a href="/insertar.html">Nuevo Ordenador</a>
-    <a href="/actualiza.html">Actualizar Ordenadores</a>
-    <table id="tablaProducto">
-        <thead>
-            <tr>
-                <th>id</th><th>marca</th><th>Precio</th>                
-            </tr>
-        </thead>
-        <tbody id="cuerpo-tabla">
 
-        </tbody>
-    </table>
+<body class="min-h-screen bg-gray-900">
+    <!-- Contenedor principal -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header con efecto neón -->
+        <div class="relative mb-12 ">
+            <div class="absolute -left-20 top-1/3 w-48 h-48 bg-red-600/20 blur-3xl -rotate-45 pointer-events-none">
+            </div>
+            <div class="absolute -right-20 top-1/3 w-48 h-48 bg-red-600/20 blur-3xl rotate-45 pointer-events-none">
+            </div>
+
+            <div class="flex flex-col lg:flex-row justify-between items-center ">
+                <h1
+                    class="text-4xl w-1/4 font-bold bg-gradient-to-r from-red-600 to-orange-500 bg-clip-text text-transparent mb-4 sm:mb-0">
+                    LISTADO DE COCHES
+                </h1>
+                <div class="space-x-4 w-3/4 p-8">
+                    <a href="/perfil" class="px-6 mt-4 py-2 bg-gradient-to-r from-red-600 to-orange-600 text-white font-bold uppercase 
+                              tracking-wider rounded-lg hover:from-red-700 hover:to-orange-700 transform hover:scale-105 
+                              transition-all duration-300 shadow-lg hover:shadow-red-600/30">
+                        Perfil
+                    </a>
+                    <a href="/logout" class="px-6 mt-4 py-2 bg-gradient-to-r from-red-600 to-orange-600 text-white font-bold uppercase 
+                              tracking-wider rounded-lg hover:from-red-700 hover:to-orange-700 transform hover:scale-105 
+                              transition-all duration-300 shadow-lg hover:shadow-red-600/30">
+                        Log out
+                    </a>
+                    <a href="/registro.html" class="px-6 mt-4 py-2 bg-gradient-to-r from-red-600 to-orange-600 text-white font-bold uppercase 
+                              tracking-wider rounded-lg hover:from-red-700 hover:to-orange-700 transform hover:scale-105 
+                              transition-all duration-300 shadow-lg hover:shadow-red-600/30">
+                        Nuevo Usuario
+                    </a>
+                    <a href="/insertar.html" class="px-6 mt-4 py-2 bg-gradient-to-r from-red-600 to-orange-600 text-white font-bold uppercase 
+                              tracking-wider rounded-lg hover:from-red-700 hover:to-orange-700 transform hover:scale-105 
+                              transition-all duration-300 shadow-lg hover:shadow-red-600/30">
+                        Nuevo Coche
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla -->
+        <div class="overflow-x-auto shadow-2xl rounded-xl border-2 border-red-600/30">
+            <table id="tablaProducto" class="min-w-full bg-gradient-to-br from-gray-800 to-gray-900 relative z-10">
+                <thead class="bg-gradient-to-r from-red-600 to-orange-600">
+                    <tr>
+                        <th class="px-8 py-4 text-left text-sm font-bold uppercase tracking-wider text-white">ID</th>
+                        <th class="px-8 py-4 text-left text-sm font-bold uppercase tracking-wider text-white">Marca</th>
+                        <th class="px-8 py-4 text-left text-sm font-bold uppercase tracking-wider text-white">Color</th>
+                        <th class="px-8 py-4 text-left text-sm font-bold uppercase tracking-wider text-white">Potencia
+                        </th>
+                        <th class="px-8 py-4 text-left text-sm font-bold uppercase tracking-wider text-white">Precio
+                        </th>
+                        <th class="px-8 py-4 text-left text-sm font-bold uppercase tracking-wider text-white">Acciones
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="cuerpo-tabla" class="divide-y divide-red-600/20">
+                    <!-- Filas dinámicas -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
     <script>
         fetch('/items')
-        .then(response =>response.json())
-        .then(ordenadores=>{
-            
-            console.log(ordenadores);
-            for ( ordenador of ordenadores){
-                fila = document.createElement('tr');
-                fila.id = ordenador._id;
-                fila.innerHTML = `<td>${ordenador._id}</td>
-                <td>${ordenador.marca}</td>
-                <td>${ordenador.precio}</td>
-                <td><button onclick=eliminaOrdenador('${ordenador._id}')>Borrar ordenador</button></td>
-                <td><button onclick=actualizaOrdenador('${ordenador._id}')>Actualizar ordenador</button></td>`
-                
-                ;
-                
-                document.getElementById('cuerpo-tabla').appendChild(fila);
-            }
-           
-        })
-     function actualizaOrdenador(id) {
-            window.location.href = `/update_ordenador?id=${id}`;
-    }
-        function eliminaOrdenador(id){
-            if (confirm("¿Está seguro/a?")){
-                fetch('/items/'+id,{
-                    method:'DELETE'   
-                }).
-                then(response=>{
-                    if (  esponse.ok ) {
-                        document.getElementById(id).remove();
-                        alert("Ordenador eliminado");
+            .then(response => response.json())
+            .then(coches => {
+                for (const coche of coches) {
+                    const fila = document.createElement('tr');
+                    fila.classList.add('hover:bg-gray-800', 'transition-colors', 'duration-300');
+                    fila.id = coche._id;
+                    fila.innerHTML = `
+                        <td class="px-8 py-4 whitespace-nowrap text-sm font-medium text-red-500">${coche._id}</td>
+                        <td class="px-8 py-4 whitespace-nowrap text-sm text-gray-200">${coche.marca}</td>
+                        <td class="px-8 py-4 whitespace-nowrap text-sm text-gray-200">${coche.color}</td>
+                        <td class="px-8 py-4 whitespace-nowrap text-sm text-red-400 font-bold">${coche.potencia} CV</td>
+                        <td class="px-8 py-4 whitespace-nowrap text-sm text-green-400 font-bold">€${coche.precio}</td>
+                        <td class="px-8 py-4 whitespace-nowrap space-x-4">
+                            <button onclick="eliminaCoche('${coche._id}')" 
+                                    class="px-4 py-2 bg-gradient-to-r from-red-600 to-orange-600 text-white rounded-lg
+                                           hover:from-red-700 hover:to-orange-700 transform hover:scale-105 transition-all
+                                           duration-300 shadow-lg hover:shadow-red-600/30">
+                                Eliminar
+                            </button>
+                            <button onclick="actualizaCoche('${coche._id}')" 
+                                    class="px-4 py-2 bg-gradient-to-r from-green-600 to-emerald-500 text-white rounded-lg
+                                           hover:from-green-700 hover:to-emerald-600 transform hover:scale-105 transition-all
+                                           duration-300 shadow-lg hover:shadow-green-600/30">
+                                Editar
+                            </button>
+                        </td>
+                    `;
+                    document.getElementById('cuerpo-tabla').appendChild(fila);
+                }
+            })
 
-                    }
-                    else
-                    {
-                        alert("ERROR al eliminar")
-                    }
 
+        function actualizaCoche(id) {
+            window.location.href = `/update_coche?id=${id}`;
+        }
+
+        function eliminaCoche(id) {
+            if (confirm("¿Estás seguro de eliminar este coche?")) {
+                fetch('/items/' + id, {
+                    method: 'DELETE'
                 })
+                    .then(response => {
+                        if (response.ok) {
+                            document.getElementById(id).remove();
+                            alert("Coche eliminado correctamente");
+                        } else {
+                            alert("Error al eliminar el coche");
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert("Error de conexión");
+                    });
             }
         }
     </script>
 </body>
+
 </html>
